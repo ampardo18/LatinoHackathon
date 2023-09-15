@@ -11,7 +11,7 @@
       height: 100%;
     }
 
-    #userPanel {
+    #userPanel { 
       position: absolute;
       top: 0;
       left: 0;
@@ -28,8 +28,15 @@
   <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
   <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
   <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+  
+  <script src="https://ev-v2.cc.api.here.com/ev/stations.json"></script>
+  <script src="https://ev-v2.cc.api.here.com/ev/stations/276u33db-b2c840878cfc409fa5a0aef858419037"></script>
+
    <script type="text/javascript" charset="utf-8" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" ></script>
  <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+
+
+
 
  <!-- Bootstrap -->
  <!-- https://getbootstrap.com/docs/5.3/customize/color/ -->
@@ -48,7 +55,7 @@
   <script>
     // Initialize the map
     var platform = new H.service.Platform({
-      apikey: '0el1nuVqJKmML27ds_k96wklSGQcSIuXqv8xgHyDpQY'
+      apikey: 'gfgQmj25CJszEQW73KJNAg'
     });
 
     var defaultLayers = platform.createDefaultLayers();
@@ -56,7 +63,7 @@
       document.getElementById('mapContainer'),
       defaultLayers.vector.normal.map,
       {
-        center: { lat: 52.5200, lng: 13.4050 },
+        center: { lat: 41.881832, lng: -87.623177 },
         zoom: 10,
         pixelRatio: window.devicePixelRatio || 1
       }
@@ -93,6 +100,8 @@
     function onError(error) {
       console.error('Geocode error:', error);
     }
+
+
   </script>
 </body>
 </html>
