@@ -61,6 +61,36 @@
         pixelRatio: window.devicePixelRatio || 1
       }
     );
+    // Routing
+    var router = platform.getRoutingServices();
+    var routeRequestParams = {
+      mode:'fastest:car',
+      waypoint0:'Start Address',
+      waypoint1:'End Address',
+      representation:'display'
+    };
+
+    router.calculateRoute(routeRequestParams,onSuccess,onError);
+    // Display Route on Map
+    function onSuccess(result) {
+      var route = result.response.route[0];
+      var routeLineString = new H.geo.LineString();
+
+      route.shape.forEach(function(point) {
+        var parts = point.split(',');
+        routeLineString.pushLatLngAlt(parts[0], parts[1]);
+      });
+
+      var routeLine = new H.map.Polyline(routeLineString, {
+        style: { lineWidth: 5, strokeColor: 'yellow' }
+      });
+      map.addObject(routeLine);
+    }
+
+    function onError(error){
+      console.error('Error calculation route:', error)
+    }
+
 
     // Enable map interactivity
     var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
