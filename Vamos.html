@@ -41,14 +41,17 @@
   
   <div id="mapContainer"></div>
   <div id="userPanel" class="bg-light p-3">
-    <input type="text" id="locationInput" class="form-control mb-2" placeholder="Enter a location">
+    <input type="text" id="originInput" class="form-control mb-2" placeholder="Enter origin">
+    <input type="text" id="destinationInput" class="form-control mb-2" placeholder="Enter destination">
+    <button id="routeButton" class="btn btn-primary">Get Route</button>
+    <input type="text" id="locationInput" class="form-control mb-2" placeholder="Enter a location">*/
     <button id="searchButton" class="btn btn-primary">Search</button>
+    
   </div>
-
   <script>
     // Initialize the map
     var platform = new H.service.Platform({
-      apikey: 'NEW'
+      apikey: 'Ny-KttLfehByJanTOmU6fq6l3QmENobZpU_85u-N8uU'
     });
 
     var defaultLayers = platform.createDefaultLayers();
