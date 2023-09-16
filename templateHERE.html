@@ -41,7 +41,8 @@
   
   <div id="mapContainer"></div>
   <div id="userPanel" class="bg-light p-3">
-    <input type="text" id="locationInput" class="form-control mb-2" placeholder="Enter a location">
+    <input type="text" id="startInput" class="form-control mb-2" placeholder="Enter start location">
+    <input type="text" id="endInput" class="form-control mb-2" placeholder="Enter end location">
     <button id="searchButton" class="btn btn-primary">Search</button>
   </div>
 
@@ -61,8 +62,47 @@
         pixelRatio: window.devicePixelRatio || 1
       }
     );
+
+    document.getElementById('searchButton').addEventListener('click', function() {
+    var startLocation = document.getElementById('startInput').value;
+    var endLocation = document.getElementById('endInput').value;
+
+    if (startLocation && endLocation) {
+      // Call the calculateRoute function with user-provided waypoints
+      calculateRoute(startLocation, endLocation);
+    } else {
+      alert("Please enter both start and end locations.");
+    }
+  });
+  
     // Routing
-    var router = platform.getRoutingServices();
+    function calculateRoute(start,end){
+      const apiUrl = 'https://router.hereapi.com/v8/routes';
+      const apiKey = 'gfgQmj25CJszEQW73KJNAg';
+      const transportMode = 'car';
+      const returnParam = 'summary';
+      const url = `${apiUrl}?transportMode=${transportMode}&origin=${start}&destination=${end}&return=${returnParam}&apiKey=gfgQmj25CJszEQW73KJNAg`;
+      // Make the HTTP request using the Fetch API
+      fetch(url)
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error(`HTTP error! Status: ${response.status}`);
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                  // Handle the routing data here
+                  console.log(data);
+              })
+              .catch(error => {
+                  // Handle any errors that occur during the request
+                  console.error('Error:', error);
+              });
+
+
+    }
+
+    /*var router = platform.getRoutingServices();
     var routeRequestParams = {
       mode:'fastest:car',
       waypoint0:'Start Address',
@@ -91,7 +131,7 @@
       console.error('Error calculation route:', error)
     }
 
-
+*/
     // Enable map interactivity
     var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 
