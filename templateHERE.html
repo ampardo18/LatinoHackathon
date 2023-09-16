@@ -29,8 +29,8 @@
   <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
   <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
   
-  <!-- <script src="https://ev-v2.cc.api.here.com/ev/stations.json"></script>
-  <script src="https://ev-v2.cc.api.here.com/ev/stations/276u33db-b2c840878cfc409fa5a0aef858419037"></script> -->
+  <script src="https://ev-v2.cc.api.here.com/ev/stations.json"></script>
+  <script src="https://ev-v2.cc.api.here.com/ev/stations/276u33db-b2c840878cfc409fa5a0aef858419037"></script>
 
   <script type="text/javascript" charset="utf-8" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" ></script>
   <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
@@ -48,14 +48,15 @@
   
   <div id="mapContainer"></div>
   <div id="userPanel" class="bg-light p-3">
-    <input type="text" id="locationInput" class="form-control mb-2" placeholder="Enter a location">
+    <input type="text" id="startInput" class="form-control mb-2" placeholder="Enter start location">
+    <input type="text" id="endInput" class="form-control mb-2" placeholder="Enter end location">
     <button id="searchButton" class="btn btn-primary">Search</button>
   </div>
 
   <script>
     // Initialize the map
     var platform = new H.service.Platform({
-      apikey: 'J23zBgdqd-A5zMETMS-wAw'
+      apikey: '0el1nuVqJKmML27ds_k96wklSGQcSIuXqv8xgHyDpQY'
     });
 
     var defaultLayers = platform.createDefaultLayers();
@@ -69,6 +70,18 @@
       }
     );
 
+    document.getElementById('searchButton').addEventListener('click', function() {
+    var startLocation = document.getElementById('startInput').value;
+    var endLocation = document.getElementById('endInput').value;
+
+    if (startLocation && endLocation) {
+      // Call the calculateRoute function with user-provided waypoints
+      calculateRoute(startLocation, endLocation);
+    } else {
+      alert("Please enter both start and end locations.");
+    }
+  });
+  
     // Enable map interactivity
     var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 
@@ -81,7 +94,64 @@
       var location = document.getElementById('locationInput').value;
       geocode(location);
     });
+    
+    // Routing
+    function calculateRoute(start,end){
+      const apiUrl = 'https://router.hereapi.com/v8/routes';
+      const apiKey = 'gfgQmj25CJszEQW73KJNAg';
+      const transportMode = 'car';
+      const returnParam = 'summary';
+      const url = `${apiUrl}?transportMode=${transportMode}&origin=${start}&destination=${end}&return=${returnParam}&apiKey=gfgQmj25CJszEQW73KJNAg`;
+      // Make the HTTP request using the Fetch API
+      fetch(url)
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error(`HTTP error! Status: ${response.status}`);
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                  // Handle the routing data here
+                  console.log(data);
+              })
+              .catch(error => {
+                  // Handle any errors that occur during the request
+                  console.error('Error:', error);
+              });
 
+
+    }
+
+    /*var router = platform.getRoutingServices();
+    var routeRequestParams = {
+      mode:'fastest:car',
+      waypoint0:'Start Address',
+      waypoint1:'End Address',
+      representation:'display'
+    };
+
+    router.calculateRoute(routeRequestParams,onSuccess,onError);
+    // Display Route on Map
+    function onSuccess(result) {
+      var route = result.response.route[0];
+      var routeLineString = new H.geo.LineString();
+
+      route.shape.forEach(function(point) {
+        var parts = point.split(',');
+        routeLineString.pushLatLngAlt(parts[0], parts[1]);
+      });
+
+      var routeLine = new H.map.Polyline(routeLineString, {
+        style: { lineWidth: 5, strokeColor: 'yellow' }
+      });
+      map.addObject(routeLine);
+    }
+
+    function onError(error){
+      console.error('Error calculation route:', error)
+    }
+
+*/
     // Geocode function
     function geocode(query) {
       var geocoder = platform.getGeocodingService();
