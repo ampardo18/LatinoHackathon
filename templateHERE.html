@@ -49,7 +49,7 @@
   <script>
     // Initialize the map
     var platform = new H.service.Platform({
-      apikey: 'gfgQmj25CJszEQW73KJNAg'
+      apikey: 'Ny-KttLfehByJanTOmU6fq6l3QmENobZpU_85u-N8uU'
     });
 
     var defaultLayers = platform.createDefaultLayers();
@@ -78,10 +78,10 @@
     // Routing
     function calculateRoute(start,end){
       const apiUrl = 'https://router.hereapi.com/v8/routes';
-      const apiKey = 'gfgQmj25CJszEQW73KJNAg';
+      const apiKey = 'Ny-KttLfehByJanTOmU6fq6l3QmENobZpU_85u-N8uU';
       const transportMode = 'car';
       const returnParam = 'summary';
-      const url = `${apiUrl}?transportMode=${transportMode}&origin=${start}&destination=${end}&return=${returnParam}&apiKey=gfgQmj25CJszEQW73KJNAg`;
+      const url = `${apiUrl}?transportMode=${transportMode}&origin=${start}&destination=${end}&return=${returnParam}&apiKey=Ny-KttLfehByJanTOmU6fq6l3QmENobZpU_85u-N8uU`;
       // Make the HTTP request using the Fetch API
       fetch(url)
               .then(response => {
@@ -101,8 +101,7 @@
 
 
     }
-
-    /*var router = platform.getRoutingServices();
+    var router = platform.getRoutingServices();
     var routeRequestParams = {
       mode:'fastest:car',
       waypoint0:'Start Address',
@@ -130,20 +129,13 @@
     function onError(error){
       console.error('Error calculation route:', error)
     }
-
-*/
+    
     // Enable map interactivity
     var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 
     // Add a UI marker to the map
     var ui = H.ui.UI.createDefault(map, defaultLayers);
     window.addEventListener("resize", () => map.getViewPort().resize());
-
-    // Add event listener to the search button
-    document.getElementById('searchButton').addEventListener('click', function() {
-      var location = document.getElementById('locationInput').value;
-      geocode(location);
-    });
 
     // Geocode function
     function geocode(query) {
