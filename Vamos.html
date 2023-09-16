@@ -10,7 +10,6 @@
       width: 100%;
       height: 100%;
     }
-
     #userPanel {
       position: absolute;
       top: 0;
@@ -36,7 +35,6 @@
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </head>
-
 <body>
   
   <div id="mapContainer"></div>
@@ -48,9 +46,8 @@
   <script>
     // Initialize the map
     var platform = new H.service.Platform({
-      apikey: '0el1nuVqJKmML27ds_k96wklSGQcSIuXqv8xgHyDpQY'
+      apikey: 'Ny-KttLfehByJanTOmU6fq6l3QmENobZpU_85u-N8uU'
     });
-
     var defaultLayers = platform.createDefaultLayers();
     var map = new H.Map(
       document.getElementById('mapContainer'),
@@ -77,22 +74,23 @@
 
     // Geocode function
     function geocode(query) {
-      var geocoder = platform.getGeocodingService();
-      geocoder.geocode({ searchText: query }, onSuccess, onError);
+      var searchService = platform.getSearchService();
+      searchService.geocode({ q: query }, onSuccess, onError);
     }
 
     // Geocode success callback
     function onSuccess(result) {
-      var location = result.Response.View[0].Result[0].Location.DisplayPosition;
-      map.setCenter({ lat: location.Latitude, lng: location.Longitude });
-      var marker = new H.map.Marker({ lat: location.Latitude, lng: location.Longitude });
+      var location = result.items[0].position;
+      map.setCenter({ lat: location.lat, lng: location.lng });
+      var marker = new H.map.Marker({ lat: location.lat, lng: location.lng });
       map.addObject(marker);
     }
-
+    
     // Geocode error callback
     function onError(error) {
       console.error('Geocode error:', error);
     }
+    
   </script>
 </body>
 </html>
