@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>HERE Map Example</title>
+  <title>Vamos LatinX Hackathon</title>
   <style>
     #mapContainer {
       position: absolute;
@@ -47,6 +47,7 @@
     <button id="routeButton" class="btn btn-primary">Get Route</button>
   </div>
   <script>
+    //Calls the Browsing API
     const ev_url = 'https://browse.search.hereapi.com/v1/browse?at=41.8341216635,-87.623664172&categories=700-7600-0322&apiKey=Ny-KttLfehByJanTOmU6fq6l3QmENobZpU_85u-N8uU';
     async function getEVC(){
       const response = await fetch(ev_url);
@@ -55,10 +56,9 @@
       const title = item.title;
       const lat = item.position.lat;
       const lng = item.position.lng;
+      //Sets Markers for all EV Charging Stations
       var evMarker = new H.map.Marker({ lat, lng }); // Marker coordinates
       map.addObject(evMarker);
-      var icon = new H.map.Icon('bolt.png');
-      evMarker.setIcon(icon);
       
 
       });
