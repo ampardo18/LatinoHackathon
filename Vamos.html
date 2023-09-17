@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>HERE Map Example</title>
+  <title>Vamos LatinX Hackathon</title>
   <style>
     #mapContainer {
       position: absolute;
@@ -29,7 +29,7 @@
   <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
   <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
   <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
-   <script type="text/javascript" charset="utf-8" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" ></script>
+  <script type="text/javascript" charset="utf-8" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" ></script>
  <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
 
  <!-- Bootstrap -->
@@ -47,7 +47,24 @@
     <button id="routeButton" class="btn btn-primary">Get Route</button>
   </div>
   <script>
+    //Calls the Browsing API
+    const ev_url = 'https://browse.search.hereapi.com/v1/browse?at=41.8341216635,-87.623664172&categories=700-7600-0322&apiKey=Ny-KttLfehByJanTOmU6fq6l3QmENobZpU_85u-N8uU';
+    async function getEVC(){
+      const response = await fetch(ev_url);
+      const data = await response.json();
+      data.items.forEach(item => {
+      const title = item.title;
+      const lat = item.position.lat;
+      const lng = item.position.lng;
+      //Sets Markers for all EV Charging Stations
+      var evMarker = new H.map.Marker({ lat, lng }); // Marker coordinates
+      map.addObject(evMarker);
+      
 
+      });
+
+    }
+    getEVC();
 
     // Initialize the map
     var platform = new H.service.Platform({
@@ -59,7 +76,7 @@
       document.getElementById('mapContainer'),
       defaultLayers.vector.normal.map,
       {
-        center: { lat: 52.5200, lng: 13.4050 },
+        center: { lat: 41.8341216635, lng: 87.623664172 },
         zoom: 10,
         pixelRatio: window.devicePixelRatio || 1
       }
@@ -76,51 +93,55 @@
     document.getElementById('routeButton').addEventListener('click', function() {
     var origin = document.getElementById('originInput').value;
     var destination = document.getElementById('destinationInput').value;
-    calculateRoute(origin, destination);
+    // calculateRoute(origin, destination);
     });
 
-    // Function to calculate the route
-    function calculateRoute(origin, destination) {
-      var router = platform.getRoutingService(null, 8); 
+  var routingParameters = {
+  'routingMode': 'fast',
+  'transportMode': 'car',
+  // The start point of the route:
+  'origin': '41.881832,-87.623177',
+  // The end point of the route:
+  'destination': '41.8341216635,-87.623664172',
+  // Include the route shape in the response
+  'return': 'polyline'
+};
+    var onResult = function(result) {
+  // ensure that at least one route was found
+  if (result.routes.length) {
+    result.routes[0].sections.forEach((section) => {
+         // Create a linestring to use as a point source for the route line
+        let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
 
-      var params = {
-        mode: 'fastest;car', // You can change the mode as needed (e.g., 'fastest;pedestrian')
-        waypoint0: origin,
-        waypoint1: destination,
-        representation: 'display',
-      };
-      router.calculateRoute(params, onRouteSuccess, onRouteError);
-    }
+        // Create a polyline to display the route:
+        let routeLine = new H.map.Polyline(linestring, {
+          style: { strokeColor: 'blue', lineWidth: 3 }
+        });
 
-    // Route calculation success callback
-    function onRouteSuccess(result) {
-      var route = result.routes[0];
+        // Create a marker for the start point:
+        let startMarker = new H.map.Marker(section.departure.place.location);
 
-      // Display route information on the map
-      var routeLine = new H.map.Polyline(route.polyline, {
-        style: { lineWidth: 5 },
-      });
+        // Create a marker for the end point:
+        let endMarker = new H.map.Marker(section.arrival.place.location);
 
-      map.addObject(routeLine);
-    // Optionally, you can display route summary (distance and duration) to the user
-      var routeSummary = result.routes[0].sections[0].summary;
-      var routeSummaryText = `Distance: ${routeSummary.length / 1000} km, Duration: ${Math.round(
-        routeSummary.duration / 60
-      )} min`;
+        // Add the route polyline and the two markers to the map:
+        map.addObjects([routeLine, startMarker, endMarker]);
 
-      alert('Route calculated successfully!\n' + routeSummaryText);
-    }
+        // Set the map's viewport to make the whole route visible:
+        map.getViewModel().setLookAtData({bounds: routeLine.getBoundingBox()});
+    });
+  }
+};
+// Get an instance of the routing service version 8:
+var router = platform.getRoutingService(null, 8);
 
-    // Route calculation error callback
-    function onRouteError(error) {
-      console.error('Route calculation error:', error);
-      alert('Route calculation failed. Please check your inputs.');
-    }
-    // Add event listener to the search button
-    //document.getElementById('searchButton').addEventListener('click', function() {
-     // var location = document.getElementById('locationInput').value;
-      //geocode(location);
-    //});
+// Call calculateRoute() with the routing parameters,
+// the callback and an error callback function (called if a
+// communication error occurs):
+router.calculateRoute(routingParameters, onResult,
+  function(error) {
+    alert(error.message);
+  });
 
     // Geocode function
     function geocode(query) {
