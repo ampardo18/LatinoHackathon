@@ -29,8 +29,7 @@
   <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
   <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
   <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
-  <script>src="https://ev-v2.cc.api.here.com/ev/stations.json"</script>
-   <script type="text/javascript" charset="utf-8" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" ></script>
+  <script type="text/javascript" charset="utf-8" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" ></script>
  <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
 
  <!-- Bootstrap -->
@@ -48,7 +47,24 @@
     <button id="routeButton" class="btn btn-primary">Get Route</button>
   </div>
   <script>
+    const ev_url = 'https://browse.search.hereapi.com/v1/browse?at=41.8341216635,-87.623664172&categories=700-7600-0322&apiKey=Ny-KttLfehByJanTOmU6fq6l3QmENobZpU_85u-N8uU';
+    async function getEVC(){
+      const response = await fetch(ev_url);
+      const data = await response.json();
+      data.items.forEach(item => {
+      const title = item.title;
+      const lat = item.position.lat;
+      const lng = item.position.lng;
+      var evMarker = new H.map.Marker({ lat, lng }); // Marker coordinates
+      map.addObject(evMarker);
+      var icon = new H.map.Icon('bolt.png');
+      evMarker.setIcon(icon);
+      
 
+      });
+
+    }
+    getEVC();
 
     // Initialize the map
     var platform = new H.service.Platform({
@@ -60,7 +76,7 @@
       document.getElementById('mapContainer'),
       defaultLayers.vector.normal.map,
       {
-        center: { lat: 41.881832, lng: -87.623177 },
+        center: { lat: 41.8341216635, lng: 87.623664172 },
         zoom: 10,
         pixelRatio: window.devicePixelRatio || 1
       }
@@ -84,9 +100,9 @@
   'routingMode': 'fast',
   'transportMode': 'car',
   // The start point of the route:
-  'origin': '50.1120423728813,8.68340740740811',
+  'origin': '41.881832,-87.623177',
   // The end point of the route:
-  'destination': '52.5309916298853,13.3846220493377',
+  'destination': '41.8341216635,-87.623664172',
   // Include the route shape in the response
   'return': 'polyline'
 };
