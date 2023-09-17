@@ -10,6 +10,7 @@
       width: 100%;
       height: 100%;
     }
+
     #userPanel {
       position: absolute;
       top: 0;
@@ -22,6 +23,7 @@
       box-sizing: border-box;
     }
   </style>
+  
    <!-- HERE Stuff -->
    <!-- https://developer.here.com/documentation/maps/3.1.45.1/dev_guide/topics/quick-start.html -->
   <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
@@ -35,19 +37,23 @@
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </head>
+
 <body>
   
   <div id="mapContainer"></div>
   <div id="userPanel" class="bg-light p-3">
-    <input type="text" id="locationInput" class="form-control mb-2" placeholder="Enter a location">
-    <button id="searchButton" class="btn btn-primary">Search</button>
+    <input type="text" id="originInput" class="form-control mb-2" placeholder="Enter origin">
+    <input type="text" id="destinationInput" class="form-control mb-2" placeholder="Enter destination">
+    <button id="routeButton" class="btn btn-primary">Get Route</button>
   </div>
-
   <script>
+
+
     // Initialize the map
     var platform = new H.service.Platform({
       apikey: 'Ny-KttLfehByJanTOmU6fq6l3QmENobZpU_85u-N8uU'
     });
+
     var defaultLayers = platform.createDefaultLayers();
     var map = new H.Map(
       document.getElementById('mapContainer'),
@@ -65,12 +71,56 @@
     // Add a UI marker to the map
     var ui = H.ui.UI.createDefault(map, defaultLayers);
     window.addEventListener("resize", () => map.getViewPort().resize());
-
-    // Add event listener to the search button
-    document.getElementById('searchButton').addEventListener('click', function() {
-      var location = document.getElementById('locationInput').value;
-      geocode(location);
+    
+    // Add event listener to the route button
+    document.getElementById('routeButton').addEventListener('click', function() {
+    var origin = document.getElementById('originInput').value;
+    var destination = document.getElementById('destinationInput').value;
+    calculateRoute(origin, destination);
     });
+
+    // Function to calculate the route
+    function calculateRoute(origin, destination) {
+      var router = platform.getRoutingService(null, 8); 
+
+      var params = {
+        mode: 'fastest;car', // You can change the mode as needed (e.g., 'fastest;pedestrian')
+        waypoint0: origin,
+        waypoint1: destination,
+        representation: 'display',
+      };
+      router.calculateRoute(params, onRouteSuccess, onRouteError);
+    }
+
+    // Route calculation success callback
+    function onRouteSuccess(result) {
+      var route = result.routes[0];
+
+      // Display route information on the map
+      var routeLine = new H.map.Polyline(route.polyline, {
+        style: { lineWidth: 5 },
+      });
+
+      map.addObject(routeLine);
+    // Optionally, you can display route summary (distance and duration) to the user
+      var routeSummary = result.routes[0].sections[0].summary;
+      var routeSummaryText = `Distance: ${routeSummary.length / 1000} km, Duration: ${Math.round(
+        routeSummary.duration / 60
+      )} min`;
+
+      alert('Route calculated successfully!\n' + routeSummaryText);
+    }
+
+    // Route calculation error callback
+    function onRouteError(error) {
+      console.error('Route calculation error:', error);
+      alert('Route calculation failed. Please check your inputs.');
+    }
+    // Add event listener to the search button
+    //document.getElementById('searchButton').addEventListener('click', function() {
+     // var location = document.getElementById('locationInput').value;
+      //geocode(location);
+    //});
 
     // Geocode function
     function geocode(query) {
@@ -85,7 +135,7 @@
       var marker = new H.map.Marker({ lat: location.lat, lng: location.lng });
       map.addObject(marker);
     }
-    
+
     // Geocode error callback
     function onError(error) {
       console.error('Geocode error:', error);
