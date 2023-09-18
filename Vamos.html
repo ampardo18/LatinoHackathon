@@ -71,7 +71,7 @@
     <div id="chargerUsageQuestion" style="display: block;">
       <p>Are you going to use this charger?</p>
       <button id="usageYesButton" onclick="openReviewForm()">Yes</button>
-      <button id="usageNoButton" onclick="closeSidebar()">No</button>
+      <button id="usageNoButton" onclick="showPopupAndCloseSidebar()">No</button>
     </div>
     <div id="reviewFormContainer" style="display: none;">
       <h3>Review this charging station</h3>
@@ -304,6 +304,16 @@ function submitReview() {
   document.getElementById('reviewFormContainer').style.display = 'none';
   document.getElementById('submitReviewButton').addEventListener('click', submitReview);
 
+}
+function showPopupAndCloseSidebar() {
+  var confirmNo = confirm("Are you sure you want to choose a different EV charger?");
+  
+  if (confirmNo) {
+    // User clicked "OK" on the confirmation pop-up
+    closeSidebar();
+  } else {
+    // User clicked "Cancel" on the confirmation pop-up, do nothing
+  }
 }
   </script>
 </body>
