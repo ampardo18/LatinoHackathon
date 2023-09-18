@@ -30,7 +30,7 @@ To run this application locally, follow these steps:
 
 - **JavaScript:** The core programming language used for building the interactive features and functionality of the application.
 
-- **[HERE Maps API](https://developer.here.com/documentation/maps/3.1.45.1/dev_guide/topics/quick-start.html):** Used for geocoding, mapping, and route planning.
+- **[HERE Maps API](https://developer.here.com/documentation/maps/3.1.45.1/dev_guide/topics/quick-start.html):** Used for geocoding, mapping, browse and route planning.
 
 - **[Bootstrap](https://getbootstrap.com/docs/5.3/customize/color/):** A popular CSS framework used for responsive design and user interface components.
 
