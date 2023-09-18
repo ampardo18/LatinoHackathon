@@ -123,6 +123,7 @@
         const lat = item.position.lat;
         const lng = item.position.lng;
         const address = item.address.label;
+
         //Sets Markers for all EV Charging Stations
         var evMarker = new H.map.Marker({ lat, lng }); 
         // Marker coordinates
@@ -162,12 +163,14 @@
                 let routeLine = new H.map.Polyline(linestring, {
                   style: { strokeColor: 'red   ', lineWidth: 3 }
                 });
-
+                var customMarkerUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/HERE_logo.svg/1200px-HERE_logo.svg.png';
+                var Icon = new H.map.Icon(customMarkerUrl, {size: { w: 32, h: 32 } // Set the size of your custom marker icon
+                });
                 // Create a marker for the start point:
-                let startMarker = new H.map.Marker(section.departure.place.location);
+                let startMarker = new H.map.Marker(section.departure.place.location, {icon: Icon});
 
                 // Create a marker for the end point:
-                let endMarker = new H.map.Marker(section.arrival.place.location);
+                let endMarker = new H.map.Marker(section.arrival.place.location, {icon: Icon});
                 var routeObjects = [routeLine, startMarker, endMarker];
 
                 // Add the route polyline and the two markers to the map:
