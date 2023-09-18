@@ -18,7 +18,7 @@ To run this application locally, follow these steps:
 1. Clone this repository to your local machine.
 
    ```bash
-   git clone https://github.com/yourusername/ev-charging-finder.git
+   https://github.com/ampardo18/LatinoHackathon.git
    ```
    1. Open Vamos.html file
    2. Enter a location in the search bar to find nearby charging stations within that area, or click a marker on the map displayed to give you a route for a EV charger.
