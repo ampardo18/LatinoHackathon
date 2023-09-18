@@ -3,18 +3,31 @@
   <head>
     <title>Vamos LatinX Hackathon</title>
     <style>
-      #himg{
+      #searchButton{
+        margin-left: 10%;
+      }
+      #locationInput{
+        margin-top: 10%;
+        outline-style: dashed;
+        width: 80%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        border-radius: 20px;
+        margin-left: 9%;
+      }
+      .himg{
         margin-top: 2%;
         margin-left: 2%;
       }
       #simg{
         width: 85%;
-        margin-top: 42%;
+        margin-top: 30%;
+        margin-left: 7.5%;
       }
       #simg2{
         width: 115%;
         height: 94%;
-        margin-top: 32%;
+        margin-top: 25%;
         margin-left: -7%;
       }
       #mapContainer {
@@ -31,11 +44,13 @@
         left: 0;
         width: 35%;
         min-width: 200px;
-        height: 80%;
+        height: 96%;
         padding: 20px;
         margin:1rem;
-        margin-top: 10%;
         box-sizing: border-box;
+        outline-style: dashed;
+        background-color: black;
+        border-radius: 30px;
       }
       #sidebar {
         position: absolute;
@@ -43,7 +58,7 @@
         left:-100%;
         width: 20%;
         min-width: 350px;
-        height: 45%;
+        height: 50%;
         padding: 20px;
         margin:1rem;
         box-sizing: border-box;
@@ -86,7 +101,6 @@
   <body>
     
     <div id="mapContainer"></div>
-    <img id="himg" src="header.png" alt="">
     <div id="sidebar">
       <span id="closeSidebar" onclick="closeSidebar()">X</span>
       <h2 id="locationName"></h2>
@@ -117,10 +131,11 @@
         </form>
       </div>
 
-      <img id="simg2" src="spotify.png" alt="">
+      <!-- <img id="simg2" src="spotify.png" alt=""> -->
     </div>
 
     <div id="userPanel" class="bg-light p-3">
+      <img class="himg" src="header.png" alt="">
       <input type="text" id="locationInput" class="form-control mb-2" placeholder="Enter a location">
       <button id="searchButton" class="btn btn-primary">Search</button>
       <img id="simg" src="spotify.png" alt="">
