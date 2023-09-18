@@ -96,9 +96,8 @@
   </div>
 
   <div id="userPanel" class="bg-light p-3">
-    <input type="text" id="originInput" class="form-control mb-2" placeholder="Enter origin">
-    <input type="text" id="destinationInput" class="form-control mb-2" placeholder="Enter destination">
-    <button id="routeButton" class="btn btn-primary">Get Route</button>
+    <input type="text" id="locationInput" class="form-control mb-2" placeholder="Enter a location">
+    <button id="searchButton" class="btn btn-primary">Search</button>
   </div>
   
  
@@ -136,10 +135,9 @@
     }
 
     // Add event listener to the route button
-    document.getElementById('routeButton').addEventListener('click', function() {
-    var origin = document.getElementById('originInput').value;
-    var destination = document.getElementById('destinationInput').value;
-    // calculateRoute(origin, destination);
+    document.getElementById('searchButton').addEventListener('click', function() {
+      var location = document.getElementById('locationInput').value;
+      geocode(location);
     });
     
     //Calls the Browsing API
@@ -168,6 +166,7 @@
     }
     getEVC(); 
     var currentRouteObjects = [];
+
     function routing(coord){
       map.removeObjects(currentRouteObjects);
 
@@ -190,7 +189,7 @@
 
                 // Create a polyline to display the route:
                 let routeLine = new H.map.Polyline(linestring, {
-                  style: { strokeColor: 'red   ', lineWidth: 3 }
+                  style: { strokeColor: 'red', lineWidth: 3 }
                 });
                 var customMarkerUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/HERE_logo.svg/1200px-HERE_logo.svg.png';
                 var Icon = new H.map.Icon(customMarkerUrl, {size: { w: 32, h: 32 } // Set the size of your custom marker icon
@@ -232,9 +231,8 @@
       // Geocode success callback
       function onSuccess(result) {
         var location = result.items[0].position;
-        map.setCenter({ lat: location.lat, lng: location.lng });
-        var marker = new H.map.Marker({ lat: location.lat, lng: location.lng });
-        map.addObject(marker);
+        var string = location.lat + ',' + location.lng;
+        routing(string);
       }
 
       // Geocode error callback
