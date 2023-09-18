@@ -3,11 +3,25 @@
 <head>
   <title>Vamos LatinX Hackathon</title>
   <style>
+    #himg{
+      margin-top: 2%;
+      margin-left: 2%;
+    }
+    #simg{
+      width: 85%;
+      margin-top: 42%;
+    }
+    #simg2{
+      width: 115%;
+      height: 94%;
+      margin-top: 32%;
+      margin-left: -7%;
+    }
     #mapContainer {
       position: absolute;
       top: 0;
       left: 0;
-      width: 60%;
+      width: 65%;
       height: 100%;
       margin-left: 40%;
     }
@@ -25,17 +39,27 @@
     }
     #sidebar {
       position: absolute;
-      top: 0;
-      left: -100%;
+      top: 10;
+      left:-100%;
       width: 20%;
-      min-width: 200px;
-      height: 80%;
+      min-width: 350px;
+      height: 45%;
       padding: 20px;
       margin:1rem;
       box-sizing: border-box;
       background-color: #fff;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+      border-radius: 20px;
       transition: left 0.3s ease-in-out;
+    }
+    #sidebar h2{
+      font-size: 120%;
+    }
+    #sidebar h3{
+      font-size: 100%;
+    }
+    #sidebar p{
+      font-size:90%;
     }
     #closeSidebar {
       position: absolute;
@@ -62,7 +86,7 @@
 <body>
   
   <div id="mapContainer"></div>
-
+  <img id="himg" src="header.png" alt="">
   <div id="sidebar">
     <span id="closeSidebar" onclick="closeSidebar()">X</span>
     <h2 id="locationName"></h2>
@@ -93,12 +117,13 @@
       </form>
     </div>
 
-
+    <img id="simg2" src="spotify.png" alt="">
   </div>
 
   <div id="userPanel" class="bg-light p-3">
     <input type="text" id="locationInput" class="form-control mb-2" placeholder="Enter a location">
     <button id="searchButton" class="btn btn-primary">Search</button>
+    <img id="simg" src="spotify.png" alt="">
   </div>
   
  
