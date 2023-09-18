@@ -18,7 +18,7 @@ To run this application locally, follow these steps:
 1. Clone this repository to your local machine.
 
    ```bash
-   git clone https://github.com/yourusername/ev-charging-finder.git
+   https://github.com/ampardo18/LatinoHackathon.git
    ```
    1. Open Vamos.html file
    2. Enter a location in the search bar to find nearby charging stations within that area, or click a marker on the map displayed to give you a route for a EV charger.
@@ -30,14 +30,14 @@ To run this application locally, follow these steps:
 
 - **JavaScript:** The core programming language used for building the interactive features and functionality of the application.
 
-- **[HERE Maps API](https://developer.here.com/documentation/maps/3.1.45.1/dev_guide/topics/quick-start.html):** Used for geocoding, mapping, and route planning.
+- **[HERE Maps API](https://developer.here.com/documentation/maps/3.1.45.1/dev_guide/topics/quick-start.html):** Used for geocoding, mapping, browse and route planning.
 
 - **[Bootstrap](https://getbootstrap.com/docs/5.3/customize/color/):** A popular CSS framework used for responsive design and user interface components.
 
 - **[jQuery](https://jquery.com/):** A JavaScript library used for DOM manipulation and simplifying AJAX requests.
 ## Contact
 
-If you have any questions or suggestions, please contact us at (email addresses).
+If you have any questions or suggestions, please contact us at (dsamano@hawk.iit.edu, mmelchor1@hawk.iit.edu, apardo@hawk.iit.edu).
 
 ## Acknowledgments
 
