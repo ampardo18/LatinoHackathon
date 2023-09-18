@@ -1,352 +1,352 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Vamos LatinX Hackathon</title>
-  <style>
-    #himg{
-      margin-top: 2%;
-      margin-left: 2%;
-    }
-    #simg{
-      width: 85%;
-      margin-top: 42%;
-    }
-    #simg2{
-      width: 115%;
-      height: 94%;
-      margin-top: 32%;
-      margin-left: -7%;
-    }
-    #mapContainer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 65%;
-      height: 100%;
-      margin-left: 40%;
-    }
-    #userPanel {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 35%;
-      min-width: 200px;
-      height: 80%;
-      padding: 20px;
-      margin:1rem;
-      margin-top: 10%;
-      box-sizing: border-box;
-    }
-    #sidebar {
-      position: absolute;
-      top: 10;
-      left:-100%;
-      width: 20%;
-      min-width: 350px;
-      height: 45%;
-      padding: 20px;
-      margin:1rem;
-      box-sizing: border-box;
-      background-color: #fff;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-      border-radius: 20px;
-      transition: left 0.3s ease-in-out;
-    }
-    #sidebar h2{
-      font-size: 120%;
-    }
-    #sidebar h3{
-      font-size: 100%;
-    }
-    #sidebar p{
-      font-size:90%;
-    }
-    #closeSidebar {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      cursor: pointer;
-    }
-  </style>
-  
-   <!-- HERE Stuff -->
-   <!-- https://developer.here.com/documentation/maps/3.1.45.1/dev_guide/topics/quick-start.html -->
-  <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
-  <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
-  <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
-  <script type="text/javascript" charset="utf-8" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" ></script>
- <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
-
- <!-- Bootstrap -->
- <!-- https://getbootstrap.com/docs/5.3/customize/color/ -->
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-</head>
-
-<body>
-  
-  <div id="mapContainer"></div>
-  <img id="himg" src="header.png" alt="">
-  <div id="sidebar">
-    <span id="closeSidebar" onclick="closeSidebar()">X</span>
-    <h2 id="locationName"></h2>
-    <p id="locationAddress"></p>
-    <p id="locationDistance"></p>
-
-    <div id="chargerUsageQuestion" style="display: block;">
-      <p>Are you going to use this charger?</p>
-      <button id="usageYesButton" onclick="openReviewForm()">Yes</button>
-      <button id="usageNoButton" onclick="showPopupAndCloseSidebar()">No</button>
-    </div>
-    <div id="reviewFormContainer" style="display: none;">
-      <h3>Review this charging station</h3>
-      <form id="reviewForm">
-        <div>
-          <label for="chargerQuality">Quality:</label>
-          <input type="range" name="chargerQuality" id="chargerQuality" min="1" max="5">
-        </div>
-        <div>
-          <label for="chargerEfficiency">Efficiency:</label>
-          <input type="range" name="chargerEfficiency" id="chargerEfficiency" min="1" max="5">
-        </div>
-        <div>
-          <label for="chargerReliability">Reliability:</label>
-          <input type="range" name="chargerReliability" id="chargerReliability" min="1" max="5">
-        </div>
-        <button type="button" onclick="submitReview()">Submit Review</button>
-      </form>
-    </div>
-
-    <img id="simg2" src="spotify.png" alt="">
-  </div>
-
-  <div id="userPanel" class="bg-light p-3">
-    <input type="text" id="locationInput" class="form-control mb-2" placeholder="Enter a location">
-    <button id="searchButton" class="btn btn-primary">Search</button>
-    <img id="simg" src="spotify.png" alt="">
-  </div>
-  
- 
-
-
-  <script>
-
-    // Initialize the map
-    var platform = new H.service.Platform({
-      apikey: 'Ny-KttLfehByJanTOmU6fq6l3QmENobZpU_85u-N8uU'
-    });
-
-    var defaultLayers = platform.createDefaultLayers();
-    var map = new H.Map(
-      document.getElementById('mapContainer'),
-      defaultLayers.vector.normal.map,
-      {
-        center: { lat: 41.8341216635, lng:-87.623664172},
-        zoom: 13,
-        pixelRatio: window.devicePixelRatio || 1
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Vamos LatinX Hackathon</title>
+    <style>
+      #himg{
+        margin-top: 2%;
+        margin-left: 2%;
       }
-    );
-
-    // Enable map interactivity
-    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-
-    // Add a UI marker to the map
-    var ui = H.ui.UI.createDefault(map, defaultLayers);
-    window.addEventListener("resize", () => map.getViewPort().resize());
+      #simg{
+        width: 85%;
+        margin-top: 42%;
+      }
+      #simg2{
+        width: 115%;
+        height: 94%;
+        margin-top: 32%;
+        margin-left: -7%;
+      }
+      #mapContainer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 65%;
+        height: 100%;
+        margin-left: 40%;
+      }
+      #userPanel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 35%;
+        min-width: 200px;
+        height: 80%;
+        padding: 20px;
+        margin:1rem;
+        margin-top: 10%;
+        box-sizing: border-box;
+      }
+      #sidebar {
+        position: absolute;
+        top: 10;
+        left:-100%;
+        width: 20%;
+        min-width: 350px;
+        height: 45%;
+        padding: 20px;
+        margin:1rem;
+        box-sizing: border-box;
+        background-color: #fff;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        transition: left 0.3s ease-in-out;
+      }
+      #sidebar h2{
+        font-size: 120%;
+      }
+      #sidebar h3{
+        font-size: 100%;
+      }
+      #sidebar p{
+        font-size:90%;
+      }
+      #closeSidebar {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
+    </style>
     
-    var n_coords = 0;
-    function markerCord(lat,long){
-        coords = lat + ',' + long;
-        return coords; 
-    }
+    <!-- HERE Stuff -->
+    <!-- https://developer.here.com/documentation/maps/3.1.45.1/dev_guide/topics/quick-start.html -->
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" ></script>
+  <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
 
-    // Add event listener to the route button
-    document.getElementById('searchButton').addEventListener('click', function() {
-      var location = document.getElementById('locationInput').value;
-      geocode(location);
-    });
+  <!-- Bootstrap -->
+  <!-- https://getbootstrap.com/docs/5.3/customize/color/ -->
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
     
-    var locationCoordinates = null;
+    <div id="mapContainer"></div>
+    <img id="himg" src="header.png" alt="">
+    <div id="sidebar">
+      <span id="closeSidebar" onclick="closeSidebar()">X</span>
+      <h2 id="locationName"></h2>
+      <p id="locationAddress"></p>
+      <p id="locationDistance"></p>
 
-    //Calls the Browsing API
-    const ev_url = 'https://browse.search.hereapi.com/v1/browse?at=41.8341216635,-87.623664172&categories=700-7600-0322&apiKey=Ny-KttLfehByJanTOmU6fq6l3QmENobZpU_85u-N8uU';
-    async function getEVC(){
-      const response = await fetch(ev_url);
-      const data = await response.json();
-      data.items.forEach(item => {
-        const title = item.title;
-        const lat = item.position.lat;
-        const lng = item.position.lng;
-        const address = item.address.label;
+      <div id="chargerUsageQuestion" style="display: block;">
+        <p>Are you going to use this charger?</p>
+        <button id="usageYesButton" onclick="openReviewForm()">Yes</button>
+        <button id="usageNoButton" onclick="showPopupAndCloseSidebar()">No</button>
+      </div>
+      <div id="reviewFormContainer" style="display: none;">
+        <h3>Review this charging station</h3>
+        <form id="reviewForm">
+          <div>
+            <label for="chargerQuality">Quality:</label>
+            <input type="range" name="chargerQuality" id="chargerQuality" min="1" max="5">
+          </div>
+          <div>
+            <label for="chargerEfficiency">Efficiency:</label>
+            <input type="range" name="chargerEfficiency" id="chargerEfficiency" min="1" max="5">
+          </div>
+          <div>
+            <label for="chargerReliability">Reliability:</label>
+            <input type="range" name="chargerReliability" id="chargerReliability" min="1" max="5">
+          </div>
+          <button type="button" onclick="submitReview()">Submit Review</button>
+        </form>
+      </div>
 
-        //Sets Markers for all EV Charging Stations
-        var evMarker = new H.map.Marker({ lat, lng }); 
-        // Marker coordinates
-        map.addObject(evMarker);
-        evMarker.addEventListener('tap', function (evt) {
-          // Handle the marker click event here
-          locationCoordinates = {lat, lng};
-          openSidebar(title, address, lat, lng);
-         });
+      <img id="simg2" src="spotify.png" alt="">
+    </div>
+
+    <div id="userPanel" class="bg-light p-3">
+      <input type="text" id="locationInput" class="form-control mb-2" placeholder="Enter a location">
+      <button id="searchButton" class="btn btn-primary">Search</button>
+      <img id="simg" src="spotify.png" alt="">
+    </div>
+    
+  
+
+
+    <script>
+
+      // Initialize the map
+      var platform = new H.service.Platform({
+        apikey: 'Ny-KttLfehByJanTOmU6fq6l3QmENobZpU_85u-N8uU'
       });
 
-    }
-    getEVC(); 
-    var currentRouteObjects = [];
+      var defaultLayers = platform.createDefaultLayers();
+      var map = new H.Map(
+        document.getElementById('mapContainer'),
+        defaultLayers.vector.normal.map,
+        {
+          center: { lat: 41.8341216635, lng:-87.623664172},
+          zoom: 13,
+          pixelRatio: window.devicePixelRatio || 1
+        }
+      );
 
-    function routing(coord){
-      map.removeObjects(currentRouteObjects);
+      // Enable map interactivity
+      var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 
-      var routingParameters = {
-          'routingMode': 'fast',
-          'transportMode': 'car',
-          // The start point of the route:
-          'origin': '41.8341216635,-87.623664172',
-          // The end point of the route:
-          'destination': coord,
-          // Include the route shape in the response
-          'return': 'polyline'
-          };
-          var onResult = function(result) {
-          // ensure that at least one route was found
-          if (result.routes.length) {
-            result.routes[0].sections.forEach((section) => {
-                // Create a linestring to use as a point source for the route line
-                let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
+      // Add a UI marker to the map
+      var ui = H.ui.UI.createDefault(map, defaultLayers);
+      window.addEventListener("resize", () => map.getViewPort().resize());
+      
+      var n_coords = 0;
+      function markerCord(lat,long){
+          coords = lat + ',' + long;
+          return coords; 
+      }
 
-                // Create a polyline to display the route:
-                let routeLine = new H.map.Polyline(linestring, {
-                  style: { strokeColor: 'red', lineWidth: 3 }
-                });
-                var customMarkerUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/HERE_logo.svg/1200px-HERE_logo.svg.png';
-                var Icon = new H.map.Icon(customMarkerUrl, {size: { w: 32, h: 32 } // Set the size of your custom marker icon
-                });
-                // Create a marker for the start point:
-                let startMarker = new H.map.Marker(section.departure.place.location, {icon: Icon});
+      // Add event listener to the route button
+      document.getElementById('searchButton').addEventListener('click', function() {
+        var location = document.getElementById('locationInput').value;
+        geocode(location);
+      });
+      
+      var locationCoordinates = null;
 
-                // Create a marker for the end point:
-                let endMarker = new H.map.Marker(section.arrival.place.location, {icon: Icon});
-                var routeObjects = [routeLine, startMarker, endMarker];
+      //Calls the Browsing API
+      const ev_url = 'https://browse.search.hereapi.com/v1/browse?at=41.8341216635,-87.623664172&categories=700-7600-0322&apiKey=Ny-KttLfehByJanTOmU6fq6l3QmENobZpU_85u-N8uU';
+      async function getEVC(){
+        const response = await fetch(ev_url);
+        const data = await response.json();
+        data.items.forEach(item => {
+          const title = item.title;
+          const lat = item.position.lat;
+          const lng = item.position.lng;
+          const address = item.address.label;
 
-                // Add the route polyline and the two markers to the map:
-                currentRouteObjects = routeObjects;
-                map.addObjects(routeObjects);
+          //Sets Markers for all EV Charging Stations
+          var evMarker = new H.map.Marker({ lat, lng }); 
+          // Marker coordinates
+          map.addObject(evMarker);
+          evMarker.addEventListener('tap', function (evt) {
+            // Handle the marker click event here
+            locationCoordinates = {lat, lng};
+            openSidebar(title, address, lat, lng);
+          });
+        });
 
-                // Set the map's viewport to make the whole route visible:
-                map.getViewModel().setLookAtData({bounds: routeLine.getBoundingBox()});
-                });
-              }
+      }
+      getEVC(); 
+      var currentRouteObjects = [];
+
+      function routing(coord){
+        map.removeObjects(currentRouteObjects);
+
+        var routingParameters = {
+            'routingMode': 'fast',
+            'transportMode': 'car',
+            // The start point of the route:
+            'origin': '41.8341216635,-87.623664172',
+            // The end point of the route:
+            'destination': coord,
+            // Include the route shape in the response
+            'return': 'polyline'
             };
-            // Get an instance of the routing service version 8:
-            var router = platform.getRoutingService(null, 8);
+            var onResult = function(result) {
+            // ensure that at least one route was found
+            if (result.routes.length) {
+              result.routes[0].sections.forEach((section) => {
+                  // Create a linestring to use as a point source for the route line
+                  let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
 
-            // Call calculateRoute() with the routing parameters,
-            // the callback and an error callback function (called if a
-            // communication error occurs):
-            router.calculateRoute(routingParameters, onResult,
-              function(error) {
-                alert(error.message);
-              });
-    }
+                  // Create a polyline to display the route:
+                  let routeLine = new H.map.Polyline(linestring, {
+                    style: { strokeColor: 'red', lineWidth: 3 }
+                  });
+                  var customMarkerUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/HERE_logo.svg/1200px-HERE_logo.svg.png';
+                  var Icon = new H.map.Icon(customMarkerUrl, {size: { w: 32, h: 32 } // Set the size of your custom marker icon
+                  });
+                  // Create a marker for the start point:
+                  let startMarker = new H.map.Marker(section.departure.place.location, {icon: Icon});
 
-      // Geocode function
-      function geocode(query) {
-        var searchService = platform.getSearchService();
-        searchService.geocode({ q: query }, onSuccess, onError);
+                  // Create a marker for the end point:
+                  let endMarker = new H.map.Marker(section.arrival.place.location, {icon: Icon});
+                  var routeObjects = [routeLine, startMarker, endMarker];
+
+                  // Add the route polyline and the two markers to the map:
+                  currentRouteObjects = routeObjects;
+                  map.addObjects(routeObjects);
+
+                  // Set the map's viewport to make the whole route visible:
+                  map.getViewModel().setLookAtData({bounds: routeLine.getBoundingBox()});
+                  });
+                }
+              };
+              // Get an instance of the routing service version 8:
+              var router = platform.getRoutingService(null, 8);
+
+              // Call calculateRoute() with the routing parameters,
+              // the callback and an error callback function (called if a
+              // communication error occurs):
+              router.calculateRoute(routingParameters, onResult,
+                function(error) {
+                  alert(error.message);
+                });
       }
 
-      // Geocode success callback
-      function onSuccess(result) {
-        var location = result.items[0].position;
-        var string = location.lat + ',' + location.lng;
-        routing(string);
+        // Geocode function
+        function geocode(query) {
+          var searchService = platform.getSearchService();
+          searchService.geocode({ q: query }, onSuccess, onError);
+        }
+
+        // Geocode success callback
+        function onSuccess(result) {
+          var location = result.items[0].position;
+          var string = location.lat + ',' + location.lng;
+          routing(string);
+        }
+
+        // Geocode error callback
+        function onError(error) {
+          console.error('Geocode error:', error);
+        }
+
+      function openReviewForm(){
+        document.getElementById('chargerUsageQuestion').style.display='none';
+        document.getElementById('reviewFormContainer').style.display='block';
       }
+        
+      //Function open side bar and hide the user panel
+      function openSidebar(name,address, lat, lng){
+        //hide user panel
+        document.getElementById('userPanel').style.display ='none';
 
-      // Geocode error callback
-      function onError(error) {
-        console.error('Geocode error:', error);
-      }
+        document.getElementById('locationName').innerText=name;
+        document.getElementById('locationAddress').innerText = address;
+        document.getElementById('sidebar').style.left = 0;
 
-    function openReviewForm(){
-      document.getElementById('chargerUsageQuestion').style.display='none';
-      document.getElementById('reviewFormContainer').style.display='block';
-    }
-      
-    //Function open side bar and hide the user panel
-    function openSidebar(name,address, lat, lng){
-      //hide user panel
-      document.getElementById('userPanel').style.display ='none';
+        var userLat = 41.8341216635;
+        var userLng = -87.623664172;
+        var distance = calculateDistance(userLat,userLng,lat,lng);
+        document.getElementById('locationDistance').innerText ='Distance: ' + distance.toFixed(2) + ' miles';
+        document.getElementById('sidebar').style.left='0';
 
-      document.getElementById('locationName').innerText=name;
-      document.getElementById('locationAddress').innerText = address;
-      document.getElementById('sidebar').style.left = 0;
-
-      var userLat = 41.8341216635;
-      var userLng = -87.623664172;
-      var distance = calculateDistance(userLat,userLng,lat,lng);
-      document.getElementById('locationDistance').innerText ='Distance: ' + distance.toFixed(2) + ' miles';
-      document.getElementById('sidebar').style.left='0';
-
-      document.getElementById('chargerUsageQuestion').style.display = 'block';
-      document.getElementById('reviewFormContainer').style.display = 'none';
-      
-    }
-    function calculateDistance(lat1, lon1, lat2, lon2) {
-    var R = 3958.8; // Earth radius in miles
-    var dLat = toRad(lat2 - lat1);
-    var dLon = toRad(lon2 - lon1);
-    var a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var distance = R * c;
-    return distance;
-    }
-
-    // Convert degrees to radians
-    function toRad(degrees) {
-      return degrees * (Math.PI / 180);
-    }    
-    //Function close sidebar and show user panel
-    function closeSidebar(){
-      document.getElementById('userPanel').style.display='block';
-      document.getElementById('sidebar').style.left = '-100%';
-      document.getElementById('chargerUsageQuestion').style.display = 'block';
-      document.getElementById('reviewFormContainer').style.display = 'none';
-}
-      document.getElementById('usageYesButton').addEventListener('click', function(){
-        var locationString = locationCoordinates.lat + ',' + locationCoordinates.lng;
-        routing(locationString);
-      },openReviewForm);
-
-      function submitReview() {
-        // Get the values from the review form fields
-        const quality = document.getElementById('chargerQuality').value;
-        const efficiency = document.getElementById('chargerEfficiency').value;
-        const reliability = document.getElementById('chargerReliability').value;
-
-        // You can do something with these values, such as sending them to a backend service.
-        // For now, let's just alert the values as an example.
-        alert(`Quality: ${quality}, Efficiency: ${efficiency}, Reliability: ${reliability}`);
-
-        // Optionally, you can hide the review form and show the charger usage question again.
         document.getElementById('chargerUsageQuestion').style.display = 'block';
         document.getElementById('reviewFormContainer').style.display = 'none';
-        document.getElementById('submitReviewButton').addEventListener('click', submitReview);
-
-      }
-      function showPopupAndCloseSidebar() {
-        var confirmNo = confirm("Are you sure you want to choose a different EV charger?");
         
-        if (confirmNo) {
-          // User clicked "OK" on the confirmation pop-up
-          closeSidebar();
-          map.removeObjects(currentRouteObjects);
-        } else {
-          // User clicked "Cancel" on the confirmation pop-up, do nothing
-        }
       }
-  </script>
-</body>
-</html>
+      function calculateDistance(lat1, lon1, lat2, lon2) {
+      var R = 3958.8; // Earth radius in miles
+      var dLat = toRad(lat2 - lat1);
+      var dLon = toRad(lon2 - lon1);
+      var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var distance = R * c;
+      return distance;
+      }
+
+      // Convert degrees to radians
+      function toRad(degrees) {
+        return degrees * (Math.PI / 180);
+      }    
+      //Function close sidebar and show user panel
+      function closeSidebar(){
+        document.getElementById('userPanel').style.display='block';
+        document.getElementById('sidebar').style.left = '-100%';
+        document.getElementById('chargerUsageQuestion').style.display = 'block';
+        document.getElementById('reviewFormContainer').style.display = 'none';
+  }
+        document.getElementById('usageYesButton').addEventListener('click', function(){
+          var locationString = locationCoordinates.lat + ',' + locationCoordinates.lng;
+          routing(locationString);
+        },openReviewForm);
+
+        function submitReview() {
+          // Get the values from the review form fields
+          const quality = document.getElementById('chargerQuality').value;
+          const efficiency = document.getElementById('chargerEfficiency').value;
+          const reliability = document.getElementById('chargerReliability').value;
+
+          // You can do something with these values, such as sending them to a backend service.
+          // For now, let's just alert the values as an example.
+          alert(`Quality: ${quality}, Efficiency: ${efficiency}, Reliability: ${reliability}`);
+
+          // Optionally, you can hide the review form and show the charger usage question again.
+          document.getElementById('chargerUsageQuestion').style.display = 'block';
+          document.getElementById('reviewFormContainer').style.display = 'none';
+          document.getElementById('submitReviewButton').addEventListener('click', submitReview);
+
+        }
+        function showPopupAndCloseSidebar() {
+          var confirmNo = confirm("Are you sure you want to choose a different EV charger?");
+          
+          if (confirmNo) {
+            // User clicked "OK" on the confirmation pop-up
+            closeSidebar();
+            map.removeObjects(currentRouteObjects);
+          } else {
+            // User clicked "Cancel" on the confirmation pop-up, do nothing
+          }
+        }
+    </script>
+  </body>
+  </html>
