@@ -22,6 +22,26 @@
       margin:1rem;
       box-sizing: border-box;
     }
+    #sidebar {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 20%;
+      min-width: 200px;
+      height: 80%;
+      padding: 20px;
+      margin:1rem;
+      box-sizing: border-box;
+      background-color: #fff;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+      transition: left 0.3s ease-in-out;
+    }
+    #closeSidebar {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
   </style>
   
    <!-- HERE Stuff -->
@@ -41,11 +61,19 @@
 <body>
   
   <div id="mapContainer"></div>
+
+  <div id="sidebar">
+    <span id="closeSidebar" onclick="closeSidebar()">X</span>
+    <h2 id="locationName"></h2>
+    <p id="locationAddress"></p>
+  </div>
+
   <div id="userPanel" class="bg-light p-3">
     <input type="text" id="originInput" class="form-control mb-2" placeholder="Enter origin">
     <input type="text" id="destinationInput" class="form-control mb-2" placeholder="Enter destination">
     <button id="routeButton" class="btn btn-primary">Get Route</button>
   </div>
+
   <script>
 
     // Initialize the map
@@ -93,6 +121,7 @@
         const title = item.title;
         const lat = item.position.lat;
         const lng = item.position.lng;
+        const address = item.address.label;
         //Sets Markers for all EV Charging Stations
         var evMarker = new H.map.Marker({ lat, lng }); 
         // Marker coordinates
@@ -101,10 +130,8 @@
           // Handle the marker click event here
           n_coords = markerCord(lat,lng);
           routing(n_coords);
-
-          
+          openSidebar(title, address);
          });
-
       });
 
     }
@@ -181,7 +208,24 @@
       function onError(error) {
         console.error('Geocode error:', error);
       }
-    
+    //Function open side bar and hide the user panel
+    function openSidebar(name,address){
+      //hide user panel
+      document.getElementById('userPanel').style.display ='none';
+
+      document.getElementById('locationName').innerText=name;
+      document.getElementById('locationAddress').innerText = address;
+      document.getElementById('sidebar').style.left = 0;
+
+    }
+
+    //Function close sidebar and show user panel
+    function closeSidebar(){
+      document.getElementById('userPanel').style.display='block';
+      document.getElementById('sidebar').style.left = '-100%';
+
+    }  
+
   </script>
 </body>
 </html>
