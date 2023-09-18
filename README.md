@@ -37,7 +37,7 @@ To run this application locally, follow these steps:
 - **[jQuery](https://jquery.com/):** A JavaScript library used for DOM manipulation and simplifying AJAX requests.
 ## Contact
 
-If you have any questions or suggestions, please contact us at (dsamano@hawk.iit.edu).
+If you have any questions or suggestions, please contact us at (dsamano@hawk.iit.edu, mmelchor1@hawk.iit.edu, apardo@hawk.iit.edu).
 
 ## Acknowledgments
 
