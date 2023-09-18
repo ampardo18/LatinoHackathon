@@ -67,6 +67,32 @@
     <h2 id="locationName"></h2>
     <p id="locationAddress"></p>
     <p id="locationDistance"></p>
+
+    <div id="chargerUsageQuestion" style="display: block;">
+      <p>Are you going to use this charger?</p>
+      <button id="usageYesButton" onclick="openReviewForm()">Yes</button>
+      <button id="usageNoButton" onclick="closeSidebar()">No</button>
+    </div>
+    <div id="reviewFormContainer" style="display: none;">
+      <h3>Review this charging station</h3>
+      <form id="reviewForm">
+        <div>
+          <label for="chargerQuality">Quality:</label>
+          <input type="range" name="chargerQuality" id="chargerQuality" min="1" max="5">
+        </div>
+        <div>
+          <label for="chargerEfficiency">Efficiency:</label>
+          <input type="range" name="chargerEfficiency" id="chargerEfficiency" min="1" max="5">
+        </div>
+        <div>
+          <label for="chargerReliability">Reliability:</label>
+          <input type="range" name="chargerReliability" id="chargerReliability" min="1" max="5">
+        </div>
+        <button type="button" onclick="submitReview()">Submit Review</button>
+      </form>
+    </div>
+
+
   </div>
 
   <div id="userPanel" class="bg-light p-3">
@@ -74,6 +100,9 @@
     <input type="text" id="destinationInput" class="form-control mb-2" placeholder="Enter destination">
     <button id="routeButton" class="btn btn-primary">Get Route</button>
   </div>
+  
+ 
+
 
   <script>
 
@@ -212,6 +241,13 @@
       function onError(error) {
         console.error('Geocode error:', error);
       }
+
+    function openReviewForm(){
+      document.getElementById('chargerUsageQuestion').style.display='none';
+      document.getElementById('reviewFormContainer').style.display='block';
+
+    }
+      
     //Function open side bar and hide the user panel
     function openSidebar(name,address, lat, lng){
       //hide user panel
@@ -226,6 +262,9 @@
       var distance = calculateDistance(userLat,userLng,lat,lng);
       document.getElementById('locationDistance').innerText ='Distance: ' + distance.toFixed(2) + ' miles';
       document.getElementById('sidebar').style.left='0';
+
+      document.getElementById('chargerUsageQuestion').style.display = 'block';
+      document.getElementById('reviewFormContainer').style.display = 'none';
     }
     function calculateDistance(lat1, lon1, lat2, lon2) {
     var R = 3958.8; // Earth radius in miles
@@ -248,9 +287,27 @@
     function closeSidebar(){
       document.getElementById('userPanel').style.display='block';
       document.getElementById('sidebar').style.left = '-100%';
+      document.getElementById('chargerUsageQuestion').style.display = 'block';
+      document.getElementById('reviewFormContainer').style.display = 'none';
+}
+document.getElementById('usageYesButton').addEventListener('click', openReviewForm);
+document.getElementById('usageYesButton').addEventListener('click', openReviewForm);
+function submitReview() {
+  // Get the values from the review form fields
+  const quality = document.getElementById('chargerQuality').value;
+  const efficiency = document.getElementById('chargerEfficiency').value;
+  const reliability = document.getElementById('chargerReliability').value;
 
-    }  
+  // You can do something with these values, such as sending them to a backend service.
+  // For now, let's just alert the values as an example.
+  alert(`Quality: ${quality}, Efficiency: ${efficiency}, Reliability: ${reliability}`);
 
+  // Optionally, you can hide the review form and show the charger usage question again.
+  document.getElementById('chargerUsageQuestion').style.display = 'block';
+  document.getElementById('reviewFormContainer').style.display = 'none';
+  document.getElementById('submitReviewButton').addEventListener('click', submitReview);
+
+}
   </script>
 </body>
 </html>
