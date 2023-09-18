@@ -22,6 +22,26 @@
       margin:1rem;
       box-sizing: border-box;
     }
+    #sidebar {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 20%;
+      min-width: 200px;
+      height: 80%;
+      padding: 20px;
+      margin:1rem;
+      box-sizing: border-box;
+      background-color: #fff;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+      transition: left 0.3s ease-in-out;
+    }
+    #closeSidebar {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
   </style>
   
    <!-- HERE Stuff -->
@@ -41,11 +61,20 @@
 <body>
   
   <div id="mapContainer"></div>
+
+  <div id="sidebar">
+    <span id="closeSidebar" onclick="closeSidebar()">X</span>
+    <h2 id="locationName"></h2>
+    <p id="locationAddress"></p>
+    <p id="locationDistance"></p>
+  </div>
+
   <div id="userPanel" class="bg-light p-3">
     <input type="text" id="originInput" class="form-control mb-2" placeholder="Enter origin">
     <input type="text" id="destinationInput" class="form-control mb-2" placeholder="Enter destination">
     <button id="routeButton" class="btn btn-primary">Get Route</button>
   </div>
+
   <script>
 
     // Initialize the map
@@ -93,6 +122,8 @@
         const title = item.title;
         const lat = item.position.lat;
         const lng = item.position.lng;
+        const address = item.address.label;
+
         //Sets Markers for all EV Charging Stations
         var evMarker = new H.map.Marker({ lat, lng }); 
         // Marker coordinates
@@ -101,10 +132,8 @@
           // Handle the marker click event here
           n_coords = markerCord(lat,lng);
           routing(n_coords);
-
-          
+          openSidebar(title, address, lat, lng);
          });
-
       });
 
     }
@@ -134,12 +163,14 @@
                 let routeLine = new H.map.Polyline(linestring, {
                   style: { strokeColor: 'red   ', lineWidth: 3 }
                 });
-
+                var customMarkerUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/HERE_logo.svg/1200px-HERE_logo.svg.png';
+                var Icon = new H.map.Icon(customMarkerUrl, {size: { w: 32, h: 32 } // Set the size of your custom marker icon
+                });
                 // Create a marker for the start point:
-                let startMarker = new H.map.Marker(section.departure.place.location);
+                let startMarker = new H.map.Marker(section.departure.place.location, {icon: Icon});
 
                 // Create a marker for the end point:
-                let endMarker = new H.map.Marker(section.arrival.place.location);
+                let endMarker = new H.map.Marker(section.arrival.place.location, {icon: Icon});
                 var routeObjects = [routeLine, startMarker, endMarker];
 
                 // Add the route polyline and the two markers to the map:
@@ -181,7 +212,45 @@
       function onError(error) {
         console.error('Geocode error:', error);
       }
-    
+    //Function open side bar and hide the user panel
+    function openSidebar(name,address, lat, lng){
+      //hide user panel
+      document.getElementById('userPanel').style.display ='none';
+
+      document.getElementById('locationName').innerText=name;
+      document.getElementById('locationAddress').innerText = address;
+      document.getElementById('sidebar').style.left = 0;
+
+      var userLat = 41.8341216635;
+      var userLng = -87.623664172;
+      var distance = calculateDistance(userLat,userLng,lat,lng);
+      document.getElementById('locationDistance').innerText ='Distance: ' + distance.toFixed(2) + ' miles';
+      document.getElementById('sidebar').style.left='0';
+    }
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+    var R = 3958.8; // Earth radius in miles
+    var dLat = toRad(lat2 - lat1);
+    var dLon = toRad(lon2 - lon1);
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var distance = R * c;
+    return distance;
+    }
+
+    // Convert degrees to radians
+    function toRad(degrees) {
+      return degrees * (Math.PI / 180);
+    }    
+    //Function close sidebar and show user panel
+    function closeSidebar(){
+      document.getElementById('userPanel').style.display='block';
+      document.getElementById('sidebar').style.left = '-100%';
+
+    }  
+
   </script>
 </body>
 </html>
